@@ -1,24 +1,43 @@
 import React, {useState} from "react";
-
-
 const TextForm = (props) => {
 
   const handleUpClick=()=>{
-    console.log("uppercasec lcicked"+text)
     let newText=text.toUpperCase();
     setText(newText)
+    props.showAlert("Converted to UpperCase", "success")
+
   }
 
   const handleLoClick=()=>{
-    console.log("lowercase lcicked"+text)
     let newText=text.toLowerCase();
     setText(newText)
+    props.showAlert("Converted to LowerCase", "success")
+
   }
 
   const handleDeClick=()=>{
-    console.log("deletion lcicked"+text)
     let newText=('');
     setText(newText)
+    props.showAlert("Text is Deleted", "success")
+
+  }
+
+  // Copy Text
+  const handleCopy=()=>{
+    let text =document.getElementById('mybox')
+    text.select();
+    navigator.clipboard.writeText(text.value)
+    props.showAlert("Text Copied!!", "success")
+
+  }
+  
+  //
+  const handleReSpace=()=>{
+    console.log('Removed space')
+    let newText=text.split(/[ ]+/)
+    setText(newText.join(" "))
+    props.showAlert("Space Removed", "success")
+
   }
 
   const handleOnChange=(event)=>{
@@ -40,12 +59,15 @@ const [text, setText]=useState('Enter Text Here');
           value={text}
           onChange={handleOnChange} //handle event
           id="mybox"
+          style={{background: props.mode==='dark'?'grey':'white'}}
           rows="5"
         ></textarea>
       </div>
-      <button className="btn btn-primary mx-2" onClick={handleUpClick}>Convert to UPPERCASE</button>
-      <button className="btn btn-primary mx-2" onClick={handleLoClick}>Convert to lowercase</button>
-      <button className="btn btn-primary mx-2" onClick={handleDeClick}>Clear Text</button>
+      <button className="btn btn-primary mx-2 my-2" onClick={handleUpClick}>Convert to UPPERCASE</button>
+      <button className="btn btn-primary mx-2 my-2" onClick={handleLoClick}>Convert to lowercase</button>
+      <button className="btn btn-primary mx-2 my-2" onClick={handleDeClick}>Clear Text</button>
+      <button className="btn btn-primary mx-2 my-2" onClick={handleCopy}>Copy Text</button>
+      <button className="btn btn-primary mx-2 my-2" onClick={handleReSpace}>Remove Space</button>
     </div>
     <div className="container" my-3>
       <h1>Your Text Summary</h1>
